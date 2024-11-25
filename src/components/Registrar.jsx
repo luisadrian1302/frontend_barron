@@ -31,7 +31,7 @@ export const Registrar = () => {
           
         localStorage.setItem("token", peticion.data.access_token);
         // navegate("../home")
-        window.location.href = "/home"
+        window.location.href = "/Categorias"
     
           
         } catch (error) {

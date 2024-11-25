@@ -23,6 +23,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PeopleIcon from '@mui/icons-material/People';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 import Paper from '@mui/material/Paper';
 import { useNavigate } from 'react-router-dom';
@@ -126,7 +127,7 @@ function Home({ element }) {
 
 
   const navigate = useNavigate();
-  const [sidebar, updateSidevar] = useState([ 'Categorias']);
+  const [sidebar, updateSidevar] = useState([ 'Categorias', 'Gastos']);
 
   useEffect(() => {
 
@@ -211,6 +212,10 @@ function Home({ element }) {
     if(txt === "Categorias"){
       return <CategoryIcon/>
     }
+    if(txt === "Gastos"){
+      return <MonetizationOnIcon/>
+    }
+    
 
     if(txt === "Users"){
       return <PeopleIcon/>

@@ -5,46 +5,52 @@ import React from 'react'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Login() {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [correcto, setCorrecto] = useState('');
-  const navegate = useNavigate();
-
-  const handleSubmit = async (e)=> {
-    e.preventDefault();
-    setError("");
-    if ( email.trim() === "" || password.trim() === "") {
-      setError("Email y password no deben estar vacios")
-      return;
-    }
-    try {
-      console.log("desde handleSubmit");
-      const peticion = await axios.post("http://127.0.0.1:8000/api/login", {
-        email,
-        password
-      });
-
-      console.log(peticion.data);
-      setError(peticion.data.error);
-      if (peticion.data.error === "") {
-        setCorrecto("Inicio sesión correctamente")
-        localStorage.setItem("token", peticion.data.token);
+export const UsuarioPage = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [correcto, setCorrecto] = useState('');
+    const handleSubmit = async (e)=> {
+        e.preventDefault();
+        setError("");
+        if ( email.trim() === "" || password.trim() === "" || password.trim() === "") {
+          setError("Nombre, Email y password no deben estar vacios")
+          return;
+        }
+        try {
+          console.log("desde handleSubmit");
+          const peticion = await axios.post("http://127.0.0.1:8000/api/register", {
+            email,
+            password,
+            name
+          });
+    
+          console.log(peticion.data);
+          
+        localStorage.setItem("token", peticion.data.access_token);
         // navegate("../home")
         window.location.href = "/Categorias"
-
+    
+          
+        } catch (error) {
+            console.log(error.response.data);
+            const data = error.response.data;
+            let message = "";
+            Object.values(data).forEach((d) => {
+                message = message + d[0] + "\n";
+            });
+            
+            
+            
+            setError(message)
+        }
+    
       }
-    } catch (error) {
-      setEmail("ocurrio un error en el servidor")
-    }
-
-  }
   return (
     <>
-
-    <Box 
+        <Box 
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -57,9 +63,20 @@ function Login() {
         <CardContent>
           <Typography variant="h5" align="center" gutterBottom>
             
-            Login
+            Registrar a un usuario
           </Typography>
           <form>
+            <TextField
+
+                label="Nombre"
+                variant="outlined"
+                type="text"
+                fullWidth
+                margin="normal"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+            />
             <TextField
 
               label="Email"
@@ -89,12 +106,10 @@ function Login() {
               {correcto}
             </Typography>
 
-            <Typography  gutterBottom>
-              ¿No tienes cuenta? entonces <Link to={"/Registrar"} >Registrate</Link>
-            </Typography>
+            
             <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
               <Button variant="contained" color="primary" type="submit" onClick={handleSubmit}>
-                Login
+                Registrar cuenta
               </Button>
             </Box>
 
@@ -104,12 +119,8 @@ function Login() {
         </CardContent>
       </Card>
     </Box>
-        
-    </>
-
     
-
+    
+    </>
   )
 }
-
-export default Login
