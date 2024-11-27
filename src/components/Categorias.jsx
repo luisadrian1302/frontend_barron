@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/EditSharp';
 import EliminarIcon from '@mui/icons-material/DeleteSharp';
+import { URL_MAIN } from './url';
 export const Categorias = () => {
   const navigate = useNavigate();
   const paginationModel = { page: 0, pageSize: 10 };
@@ -20,7 +21,14 @@ export const Categorias = () => {
 
     const traerDatos = async () => {
       try {
-        const peticion = await axios.get("http://127.0.0.1:8000/api/categories");
+        let token = localStorage.getItem("token");
+
+        const peticion = await axios.get(URL_MAIN+"api/categories",{
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }, 
+        });
         console.log(peticion.data);
         setCategoria(peticion.data);
 
@@ -76,8 +84,15 @@ export const Categorias = () => {
       }
     
       async function handleClickRemove(e) {
+        let token = localStorage.getItem("token");
+
         try {
-          const peticion = await axios.delete("http://127.0.0.1:8000/api/categories/" + e);
+          const peticion = await axios.delete(URL_MAIN+"api/categories/" + e, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }, 
+          });
           console.log(peticion.data);
           const nuevasCategorias = categorias.filter(element => element.id != e);
     

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/EditSharp';
 import EliminarIcon from '@mui/icons-material/DeleteSharp';
+import { URL_MAIN } from './url';
 
 
 export const Users = () => {
@@ -24,7 +25,7 @@ export const Users = () => {
   
       const traerDatos = async () => {
         try {
-          const peticion = await axios.get("http://127.0.0.1:8000/api/getUsers", {
+          const peticion = await axios.get(URL_MAIN+"api/getUsers", {
             headers: {
               'Authorization': `Bearer ${token}`,
               "Content-Type": "application/json"
@@ -85,7 +86,14 @@ export const Users = () => {
     
       async function handleClickRemove(e) {
         try {
-          const peticion = await axios.delete("http://127.0.0.1:8000/api/categories/" + e);
+          let token = localStorage.getItem("token");
+
+          const peticion = await axios.delete(URL_MAIN+"api/getUser/" + e, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }, 
+          });
           console.log(peticion.data);
           const nuevasUsuarios = Usuarios.filter(element => element.id != e);
     

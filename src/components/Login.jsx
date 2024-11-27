@@ -4,6 +4,7 @@ import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { URL_MAIN } from './url';
 
 function Login() {
 
@@ -22,7 +23,7 @@ function Login() {
     }
     try {
       console.log("desde handleSubmit");
-      const peticion = await axios.post("http://127.0.0.1:8000/api/login", {
+      const peticion = await axios.post(URL_MAIN+"api/login", {
         email,
         password
       });

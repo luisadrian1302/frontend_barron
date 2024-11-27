@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/EditSharp';
 import EliminarIcon from '@mui/icons-material/DeleteSharp';
+import { URL_MAIN } from './url';
 
 
 export const Gastos = () => {
@@ -24,7 +25,7 @@ export const Gastos = () => {
   
       const traerDatos = async () => {
         try {
-          const peticion = await axios.get("http://127.0.0.1:8000/api/gastos/getall", {
+          const peticion = await axios.get(URL_MAIN+"api/gastos/getall", {
             headers: {
               'Authorization': `Bearer ${token}`,
               "Content-Type": "application/json"
@@ -101,7 +102,7 @@ export const Gastos = () => {
 
 
         try {
-          const peticion = await axios.delete("http://127.0.0.1:8000/api/gastos/" + e, {
+          const peticion = await axios.delete(URL_MAIN+"api/gastos/" + e, {
             headers: {
               'Authorization': `Bearer ${token}`,
               "Content-Type": "application/json"
@@ -124,7 +125,7 @@ export const Gastos = () => {
         <AddIcon style={{
             margin: "0 5px "
         }}></AddIcon>
-        Registrar nuevo Usuario 
+        Registrar nuevo gasto 
         </Button>
 
         <DataGrid

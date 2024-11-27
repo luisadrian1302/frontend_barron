@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { URL_MAIN } from './url';
 
 function Categoria() {
     const [nombre, setNombre] = useState('');
@@ -20,11 +21,18 @@ function Categoria() {
             return;
         }
 
+        let token = localStorage.getItem("token");
+
         try {
 
             if (isEdit) {
-              const peticion = await axios.put("http://127.0.0.1:8000/api/categories/"+categoria.id, {
+              const peticion = await axios.put(URL_MAIN+"api/categories/"+categoria.id, {
                 name: nombre
+              }, {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  "Content-Type": "application/json"
+                }, 
               });
               console.log(peticion.data);
               navegate("/categorias")
@@ -32,8 +40,13 @@ function Categoria() {
               
             }else{
               console.log("desde handleSubmit");
-              const peticion = await axios.post("http://127.0.0.1:8000/api/categories", {
+              const peticion = await axios.post(URL_MAIN+"api/categories", {
                 name: nombre
+              }, {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  "Content-Type": "application/json"
+                }, 
               });
         
               console.log(peticion.data);
@@ -61,10 +74,17 @@ function Categoria() {
         const dividirUrl = obtenerParametros.split("/")
         const obtenerUltimoValor = dividirUrl[dividirUrl.length - 1];
         console.log(obtenerUltimoValor);
+        let token = localStorage.getItem("token");
+
 
         if (obtenerUltimoValor != "categoria") {
           setisEdit(true);
-          const peticion = await axios.get("http://127.0.0.1:8000/api/categories/" + obtenerUltimoValor);
+          const peticion = await axios.get(URL_MAIN+"api/categories/" + obtenerUltimoValor,{
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }, 
+          });
           setCategoria(peticion.data);
           console.log(peticion.data);
           setNombre(peticion.data.nombre)

@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { URL_MAIN } from './url';
 
 function Gasto() {
     const [nombre, setNombre] = useState('');
@@ -33,7 +34,7 @@ function Gasto() {
             let token = localStorage.getItem("token");
 
             if (isEdit) {
-              const peticion = await axios.put("http://127.0.0.1:8000/api/gastos/"+ gasto.id, {
+              const peticion = await axios.put(URL_MAIN+"api/gastos/"+ gasto.id, {
                 name: nombre,
                 id_categoria : cat,
                 fecha_gasto : fecha_gasto,
@@ -51,7 +52,7 @@ function Gasto() {
               
             }else{
               console.log("desde handleSubmit");
-              const peticion = await axios.post("http://127.0.0.1:8000/api/gastos/create", {
+              const peticion = await axios.post(URL_MAIN+"api/gastos/create", {
                 name: nombre,
                 id_categoria : cat,
                 fecha_gasto : fecha_gasto,
@@ -88,7 +89,7 @@ function Gasto() {
       try {
 
         // obtener categorias 
-        const peticion = await axios.get("http://127.0.0.1:8000/api/categories");
+        const peticion = await axios.get(URL_MAIN+"api/categories");
         console.log(peticion.data);
         setCategorias(peticion.data);
 
@@ -102,7 +103,7 @@ function Gasto() {
 
         if (obtenerUltimoValor != "gasto") {
           setisEdit(true);
-          const peticion = await axios.get("http://127.0.0.1:8000/api/gastos/get/" + obtenerUltimoValor,{
+          const peticion = await axios.get(URL_MAIN+"api/gastos/get/" + obtenerUltimoValor,{
             headers: {
                 'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json"

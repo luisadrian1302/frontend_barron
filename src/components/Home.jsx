@@ -32,6 +32,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import img1 from '../img/img1.jpg';
 import img2 from '../img/img2.jpg';
 import axios from 'axios';
+import { URL_MAIN } from './url';
 
 const imgs = [img1, img2]
 
@@ -147,7 +148,7 @@ function Home({ element }) {
         let token = localStorage.getItem("token");
         iteracion = iteracion + 1;
 
-        const result = await axios.get("http://127.0.0.1:8000/api/verifyAdmin", {
+        const result = await axios.get(URL_MAIN+"api/verifyAdmin", {
           headers: {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json"

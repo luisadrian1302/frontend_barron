@@ -30,6 +30,7 @@ function App() {
                   <Route path="/login" element={isAuthenticated ? <Navigate to="/Categorias" /> : <HomePublic element={<Login />} /> } />
                   <Route path="/Registrar" element={isAuthenticated ? <Navigate to="/Categorias" /> : <HomePublic element={<Registrar />}/>   } />
                   <Route path="/usuario" element={isAuthenticated ? <Home element={<UsuarioPage />}/> : <HomePublic element={<Login />} /> }/>  
+                  <Route path="/usuario/*" element={isAuthenticated ? <Home element={<UsuarioPage />}/> : <HomePublic element={<Login />} /> }/>  
 
                   {/* Ruta del Home (protegida) */}
                   
