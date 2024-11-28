@@ -128,22 +128,46 @@ function Home({ element }) {
 
 
   const navigate = useNavigate();
-  const [sidebar, updateSidevar] = useState([ 'Categorias', 'Gastos']);
+  const [sidebar, updateSidevar] = useState([ 'Gastos']);
 
   useEffect(() => {
 
     let iteracion = 0;
+
+    async function verificarRolAdminsecundary(){
+      try {
+
+        //  
+        
+        let token = localStorage.getItem("token");
+
+        const result = await axios.get(URL_MAIN+"api/verifyAdminSecundary", {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }, 
+          
+        })
+        const data = await  result.data; 
+        console.log(data);
+        updateSidevar((data) => [...data,'Categorias', 'Logout'])
+
+          
+      } catch (error) {
+        updateSidevar((data) => [...data, 'Logout'])
+      }
+
+
+    }
     async function verificarRol(){
-
-      
-
-      console.log(iteracion);
       
       if (iteracion) {
         return;
       }
 
       try {
+
+        //  
         
         let token = localStorage.getItem("token");
         iteracion = iteracion + 1;
@@ -157,12 +181,13 @@ function Home({ element }) {
         })
         const data = await  result.data; 
         console.log(data);
-        updateSidevar((data) => [...data,'Users', 'Logout'])
+        updateSidevar((data) => [...data,'Categorias', 'Users', 'Logout'])
 
           
       } catch (error) {
+
+        await verificarRolAdminsecundary();
         
-        updateSidevar((data) => [...data, 'Logout'])
 
       }
 

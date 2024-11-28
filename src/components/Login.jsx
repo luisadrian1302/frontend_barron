@@ -34,7 +34,7 @@ function Login() {
         setCorrecto("Inicio sesión correctamente")
         localStorage.setItem("token", peticion.data.token);
         // navegate("../home")
-        window.location.href = "/Categorias"
+        window.location.href = "/gastos"
 
       }
     } catch (error) {

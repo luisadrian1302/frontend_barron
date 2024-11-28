@@ -87,9 +87,16 @@ function Gasto() {
      async  function verificarEdit(){
 
       try {
+        let token2 = localStorage.getItem("token");
+
 
         // obtener categorias 
-        const peticion = await axios.get(URL_MAIN+"api/categories");
+        const peticion = await axios.get(URL_MAIN+"api/categories", {
+          headers: {
+            'Authorization': `Bearer ${token2}`,
+            "Content-Type": "application/json"
+          }, 
+        });
         console.log(peticion.data);
         setCategorias(peticion.data);
 
@@ -111,7 +118,7 @@ function Gasto() {
           });
           setGasto(peticion.data);
           console.log(peticion.data);
-          setNombre(peticion.data.nombre)
+          setNombre(peticion.data.name)
           setMonto(peticion.data.monto)
           setfecha_gasto(peticion.data.fecha_gasto)
           setCat(peticion.data.id_categoria)
